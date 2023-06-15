@@ -33,9 +33,12 @@ public class ProjectileHitByPlayerCreative implements Listener {
         if (getEntityData().hasTask(event.getEntity())) {
             getEntityData().cancelTask(player, event.getEntity());
         }
-        if (isEntity(event.getHitEntity()))return;
-        if (!isBlock(event.getHitBlock()))return;
-        event.getEntity().remove();
+        if (isEntity(event.getHitEntity())) {
+            event.getEntity().remove();
+        }
+        if (isBlock(event.getHitBlock())) {
+            event.getEntity().remove();
+        }
     }
     private boolean isPlayer(ProjectileSource projectileSource) {
         return projectileSource instanceof Player;
