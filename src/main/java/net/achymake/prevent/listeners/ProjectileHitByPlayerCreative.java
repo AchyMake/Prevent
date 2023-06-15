@@ -31,7 +31,7 @@ public class ProjectileHitByPlayerCreative implements Listener {
         Player player = (Player) event.getEntity().getShooter();
         if (!player.getGameMode().equals(GameMode.CREATIVE))return;
         if (getEntityData().hasTask(event.getEntity())) {
-            getEntityData().cancelTask(player, event.getEntity());
+            getEntityData().forceCancel(event.getEntity());
         }
         if (isEntity(event.getHitEntity())) {
             event.getEntity().remove();
