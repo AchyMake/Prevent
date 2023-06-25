@@ -12,7 +12,7 @@ import org.bukkit.plugin.Plugin;
 
 public class PlayerMove implements Listener {
     private FileConfiguration getConfig() {
-        return Prevent.getInstance().getConfig();
+        return Prevent.getConfiguration();
     }
     public PlayerMove(Plugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);

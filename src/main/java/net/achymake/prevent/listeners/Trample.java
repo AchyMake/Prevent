@@ -11,7 +11,7 @@ import org.bukkit.plugin.Plugin;
 
 public class Trample implements Listener {
     private FileConfiguration getConfig() {
-        return Prevent.getInstance().getConfig();
+        return Prevent.getConfiguration();
     }
     public Trample(Plugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);

@@ -5,6 +5,7 @@ import net.achymake.prevent.files.EntityData;
 import net.achymake.prevent.files.Message;
 import net.achymake.prevent.listeners.*;
 import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -24,13 +25,30 @@ public final class Prevent extends JavaPlugin {
     public static EntityData getEntityData() {
         return entityData;
     }
-    @Override
-    public void onEnable() {
+    private static FileConfiguration configuration;
+    public static FileConfiguration getConfiguration() {
+        return configuration;
+    }
+    private void start() {
         instance = this;
         message = new Message(this);
         entityData = new EntityData(this);
+        configuration = getConfig();
         reload();
+        commands();
+        events();
+        message.sendLog(Level.INFO, "Enabled " + getName() + " " + getDescription().getVersion());
+    }
+    private void stop() {
+        getServer().getScheduler().cancelTasks(this);
+        message.sendLog(Level.INFO, "Disabled " + getName() + " " + getDescription().getVersion());
+    }
+    private void commands() {
         getCommand("prevent").setExecutor(new MainCommand());
+    }
+    private void events() {
+        new BlockSpread(this);
+        new BlockRedstone(this);
         new CreatureSpawn(this);
         new EntityBlockForm(this);
         new EntityChangeBlock(this);
@@ -38,24 +56,26 @@ public final class Prevent extends JavaPlugin {
         new EntityTarget(this);
         new PlayerMove(this);
         new ProjectileHit(this);
-        new ProjectileHitByPlayerCreative(this);
         new ProjectileLaunch(this);
         new Trample(this);
-        message.sendLog(Level.INFO, "Enabled " + getName() + " " + getDescription().getVersion());
+    }
+    @Override
+    public void onEnable() {
+        start();
     }
     @Override
     public void onDisable() {
-        getServer().getScheduler().cancelTasks(this);
-        message.sendLog(Level.INFO, "Disabled " + getName() + " " + getDescription().getVersion());
+        stop();
     }
     public void reload() {
-        if (new File(getDataFolder(), "config.yml").exists()) {
+        File file = new File(getDataFolder(), "config.yml");
+        if (file.exists()) {
             try {
-                getConfig().load(new File(getDataFolder(), "config.yml"));
-                saveConfig();
+                getConfig().load(file);
             } catch (IOException | InvalidConfigurationException e) {
                 message.sendLog(Level.WARNING, e.getMessage());
             }
+            saveConfig();
         } else {
             getConfig().options().copyDefaults(true);
             saveConfig();

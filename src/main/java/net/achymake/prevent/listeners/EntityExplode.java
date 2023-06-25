@@ -10,7 +10,7 @@ import org.bukkit.plugin.Plugin;
 
 public class EntityExplode implements Listener {
     private FileConfiguration getConfig() {
-        return Prevent.getInstance().getConfig();
+        return Prevent.getConfiguration();
     }
     public EntityExplode(Plugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -18,6 +18,7 @@ public class EntityExplode implements Listener {
     @EventHandler(priority = EventPriority.NORMAL)
     public void onEntityExplode(EntityExplodeEvent event) {
         if (!getConfig().getBoolean("prevent.explode." + event.getEntity().getType()))return;
-        event.setCancelled(true);
+        if (event.blockList().isEmpty())return;
+        event.blockList().clear();
     }
 }

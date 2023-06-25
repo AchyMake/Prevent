@@ -5,19 +5,18 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityChangeBlockEvent;
-import org.bukkit.plugin.Plugin;
+import org.bukkit.event.block.BlockRedstoneEvent;
 
-public class EntityChangeBlock implements Listener {
+public class BlockRedstone implements Listener {
     private FileConfiguration getConfig() {
         return Prevent.getConfiguration();
     }
-    public EntityChangeBlock(Plugin plugin) {
+    public BlockRedstone(Prevent plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
     @EventHandler(priority = EventPriority.NORMAL)
-    public void onEntityChangeBlock(EntityChangeBlockEvent event) {
-        if (!getConfig().getBoolean("prevent.change-block." + event.getEntity().getType()))return;
-        event.setCancelled(true);
+    public void onBlockRedstone(BlockRedstoneEvent event) {
+        if (!getConfig().getBoolean("prevent.redstone"))return;
+        event.setNewCurrent(0);
     }
 }

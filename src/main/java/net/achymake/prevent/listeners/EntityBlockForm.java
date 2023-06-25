@@ -10,7 +10,7 @@ import org.bukkit.plugin.Plugin;
 
 public class EntityBlockForm implements Listener {
     private FileConfiguration getConfig() {
-        return Prevent.getInstance().getConfig();
+        return Prevent.getConfiguration();
     }
     public EntityBlockForm(Plugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);

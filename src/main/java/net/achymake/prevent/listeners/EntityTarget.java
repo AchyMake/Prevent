@@ -10,7 +10,7 @@ import org.bukkit.plugin.Plugin;
 
 public class EntityTarget implements Listener {
     private FileConfiguration getConfig() {
-        return Prevent.getInstance().getConfig();
+        return Prevent.getConfiguration();
     }
     public EntityTarget(Plugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);

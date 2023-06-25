@@ -10,7 +10,7 @@ import org.bukkit.plugin.Plugin;
 
 public class CreatureSpawn implements Listener {
     private FileConfiguration getConfig() {
-        return Prevent.getInstance().getConfig();
+        return Prevent.getConfiguration();
     }
     public CreatureSpawn(Plugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);

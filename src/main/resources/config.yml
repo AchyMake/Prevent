@@ -1,5 +1,7 @@
 prevent:
   moving-into-unloaded-chunks: true
+  redstone: false
+  fire-spread: true
   trample:
     # trampling
     FARMLAND: true
