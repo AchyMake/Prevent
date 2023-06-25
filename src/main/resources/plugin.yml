@@ -1,7 +1,7 @@
 name: Prevent
 version: '${project.version}'
 main: net.achymake.prevent.Prevent
-api-version: 1.19
+api-version: 1.15
 prefix: '${project.name}'
 load: POSTWORLD
 author: AchyMake
