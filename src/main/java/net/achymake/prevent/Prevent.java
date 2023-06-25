@@ -13,9 +13,9 @@ import java.io.IOException;
 import java.util.logging.Level;
 
 public final class Prevent extends JavaPlugin {
-    private static Prevent instance;
+    private static Prevent plugin;
     public static Prevent getInstance() {
-        return instance;
+        return plugin;
     }
     private static Message message;
     public static Message getMessage() {
@@ -30,18 +30,18 @@ public final class Prevent extends JavaPlugin {
         return configuration;
     }
     private void start() {
-        instance = this;
+        plugin = this;
         message = new Message(getLogger());
         entityData = new EntityData(this);
         configuration = getConfig();
-        reload();
         commands();
         events();
-        message.sendLog(Level.INFO, "Enabled " + getName() + " " + getDescription().getVersion());
+        reload();
+        getMessage().sendLog(Level.INFO, "Enabled " + getName() + " " + getDescription().getVersion());
     }
     private void stop() {
         getServer().getScheduler().cancelTasks(this);
-        message.sendLog(Level.INFO, "Disabled " + getName() + " " + getDescription().getVersion());
+        getMessage().sendLog(Level.INFO, "Disabled " + getName() + " " + getDescription().getVersion());
     }
     private void commands() {
         getCommand("prevent").setExecutor(new MainCommand());
@@ -72,15 +72,18 @@ public final class Prevent extends JavaPlugin {
     public void reload() {
         File file = new File(getDataFolder(), "config.yml");
         if (file.exists()) {
+            getMessage().sendLog(Level.INFO, "reloading config file");
             try {
                 getConfig().load(file);
             } catch (IOException | InvalidConfigurationException e) {
-                message.sendLog(Level.WARNING, e.getMessage());
+                getMessage().sendLog(Level.WARNING, e.getMessage());
             }
             saveConfig();
+            getMessage().sendLog(Level.INFO, "successfully reloaded config file");
         } else {
             getConfig().options().copyDefaults(true);
             saveConfig();
+            getMessage().sendLog(Level.INFO, "created config file");
         }
     }
 }
