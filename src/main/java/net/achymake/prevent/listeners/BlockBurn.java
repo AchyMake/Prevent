@@ -6,19 +6,20 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockSpreadEvent;
+import org.bukkit.event.block.BlockBurnEvent;
 
-public class BlockSpread implements Listener {
+public class BlockBurn implements Listener {
     private FileConfiguration getConfig() {
         return Prevent.getConfiguration();
     }
-    public BlockSpread(Prevent plugin) {
+    public BlockBurn(Prevent plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
     @EventHandler(priority = EventPriority.NORMAL)
-    public void onBlockSpread(BlockSpreadEvent event) {
+    public void onBlockBurn(BlockBurnEvent event) {
         if (!getConfig().getBoolean("prevent.fire-spread"))return;
-        if (!event.getSource().getType().equals(Material.FIRE))return;
         event.setCancelled(true);
+        if (event.getIgnitingBlock() == null)return;
+        event.getIgnitingBlock().setType(Material.AIR);
     }
 }

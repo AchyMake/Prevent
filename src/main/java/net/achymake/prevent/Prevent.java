@@ -31,7 +31,7 @@ public final class Prevent extends JavaPlugin {
     }
     private void start() {
         instance = this;
-        message = new Message(this);
+        message = new Message(getLogger());
         entityData = new EntityData(this);
         configuration = getConfig();
         reload();
@@ -47,8 +47,10 @@ public final class Prevent extends JavaPlugin {
         getCommand("prevent").setExecutor(new MainCommand());
     }
     private void events() {
-        new BlockSpread(this);
+        new BlockBurn(this);
+        new BlockIgnite(this);
         new BlockRedstone(this);
+        new BlockSpread(this);
         new CreatureSpawn(this);
         new EntityBlockForm(this);
         new EntityChangeBlock(this);
