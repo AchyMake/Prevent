@@ -14,9 +14,9 @@ import java.io.IOException;
 import java.util.logging.Level;
 
 public final class Prevent extends JavaPlugin {
-    private static Prevent plugin;
+    private static Prevent instance;
     public static Prevent getInstance() {
-        return plugin;
+        return instance;
     }
     private static FileConfiguration configuration;
     public static FileConfiguration getConfiguration() {
@@ -31,7 +31,7 @@ public final class Prevent extends JavaPlugin {
         return entityData;
     }
     private void start() {
-        plugin = this;
+        instance = this;
         configuration = getConfig();
         message = new Message(getLogger());
         entityData = new EntityData(this);
