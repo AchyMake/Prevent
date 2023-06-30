@@ -31,12 +31,12 @@ public final class Prevent extends JavaPlugin {
     }
     private void start() {
         plugin = this;
+        configuration = getConfig();
         message = new Message(getLogger());
         entityData = new EntityData(this);
-        configuration = getConfig();
+        reload();
         commands();
         events();
-        reload();
         getMessage().sendLog(Level.INFO, "Enabled " + getName() + " " + getDescription().getVersion());
     }
     private void stop() {
@@ -72,18 +72,18 @@ public final class Prevent extends JavaPlugin {
     public void reload() {
         File file = new File(getDataFolder(), "config.yml");
         if (file.exists()) {
-            getMessage().sendLog(Level.INFO, "reloading config file");
+            getMessage().sendLog(Level.INFO, "loading config.yml");
             try {
                 getConfig().load(file);
             } catch (IOException | InvalidConfigurationException e) {
                 getMessage().sendLog(Level.WARNING, e.getMessage());
             }
             saveConfig();
-            getMessage().sendLog(Level.INFO, "successfully reloaded config file");
+            getMessage().sendLog(Level.INFO, "successfully loaded config.yml");
         } else {
             getConfig().options().copyDefaults(true);
             saveConfig();
-            getMessage().sendLog(Level.INFO, "created config file");
+            getMessage().sendLog(Level.INFO, "created config.yml");
         }
     }
 }
