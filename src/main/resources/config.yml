@@ -1,38 +1,30 @@
 prevent:
+  # prevent moving into unloaded chunks
   moving-into-unloaded-chunks: true
+  # prevent redstone
   redstone: false
+  # prevent fire spread
   fire-spread: true
   trample:
-    # trampling
+    # prevent player trample
     FARMLAND: true
     TURTLE_EGG: true
   explode:
-    # entity explode
+    # prevent entity block damage
     CREEPER: true
-    # just-in-case
     WITHER_SKULL: true
-    # just-in-case
     DRAGON_FIREBALL: true
   change-block:
-    # sheep changes grass block to dirt
+    # prevent entity change block
     SHEEP: true
-    # enderman block pick up
     ENDERMAN: true
-    # just-in-case
-    CREEPER: true
-    # just-in-case
-    ENDER_DRAGON: true
-    # just-in-case
-    DRAGON_FIREBALL: true
-    # just-in-case
     WITHER: true
-    # just-in-case
-    WITHER_SKULL: true
+    ENDER_DRAGON: true
   spawn:
-    # entity spawn
+    # prevent entity spawn
     PHANTOM: true
   entity-target:
-    # entity target
+    # prevent entity target
     ZOMBIE:
       VILLAGER: true
     DROWNED:
@@ -40,7 +32,7 @@ prevent:
     HUSK:
       VILLAGER: true
   block-form:
-    # snowman trails
+    # prevent block form
     SNOWMAN: true
 projectile-launch:
   # removes projectile after launch, 0 to disable, 20 is 1 sec
