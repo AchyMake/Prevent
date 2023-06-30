@@ -4,6 +4,7 @@ import net.achymake.prevent.commands.MainCommand;
 import net.achymake.prevent.files.EntityData;
 import net.achymake.prevent.files.Message;
 import net.achymake.prevent.listeners.*;
+import net.achymake.prevent.version.UpdateChecker;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -38,6 +39,7 @@ public final class Prevent extends JavaPlugin {
         commands();
         events();
         getMessage().sendLog(Level.INFO, "Enabled " + getName() + " " + getDescription().getVersion());
+        new UpdateChecker().getUpdate();
     }
     private void stop() {
         getServer().getScheduler().cancelTasks(this);
@@ -56,6 +58,7 @@ public final class Prevent extends JavaPlugin {
         new EntityChangeBlock(this);
         new EntityExplode(this);
         new EntityTarget(this);
+        new NotifyUpdate(this);
         new PlayerMove(this);
         new ProjectileHit(this);
         new ProjectileLaunch(this);
@@ -72,14 +75,13 @@ public final class Prevent extends JavaPlugin {
     public void reload() {
         File file = new File(getDataFolder(), "config.yml");
         if (file.exists()) {
-            getMessage().sendLog(Level.INFO, "loading config.yml");
             try {
                 getConfig().load(file);
+                getMessage().sendLog(Level.INFO, "loading config.yml");
             } catch (IOException | InvalidConfigurationException e) {
                 getMessage().sendLog(Level.WARNING, e.getMessage());
             }
             saveConfig();
-            getMessage().sendLog(Level.INFO, "successfully loaded config.yml");
         } else {
             getConfig().options().copyDefaults(true);
             saveConfig();
