@@ -1,15 +1,19 @@
 package net.achymake.prevent.files;
 
+import net.achymake.prevent.Prevent;
 import org.bukkit.NamespacedKey;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.plugin.Plugin;
 
 public class EntityData {
-    private Plugin plugin;
-    public EntityData(Plugin plugin) {
+    private final Prevent plugin;
+    public EntityData(Prevent plugin) {
         this.plugin = plugin;
+    }
+    private FileConfiguration getConfig() {
+        return Prevent.getConfiguration();
     }
     private PersistentDataContainer data(Entity entity) {
         return entity.getPersistentDataContainer();
@@ -27,7 +31,7 @@ public class EntityData {
         data(entity).remove(NamespacedKey.minecraft("prevent.task"));
     }
     public void cancelTask(Entity shooter, Entity projectile) {
-        if (plugin.getConfig().getBoolean("projectile-launch." + shooter.getType() + ".cancel-on-hit")) {
+        if (getConfig().getBoolean("projectile-launch." + shooter.getType() + ".cancel-on-hit")) {
             if (hasTask(projectile)) {
                 int value = getTask(projectile);
                 if (plugin.getServer().getScheduler().isQueued(value)) {
@@ -47,13 +51,13 @@ public class EntityData {
         }
     }
     public void runTask(Entity shooter, Entity projectile) {
-        if (plugin.getConfig().getInt("projectile-launch." + shooter.getType() + "." + projectile.getType()) > 0) {
+        if (getConfig().getInt("projectile-launch." + shooter.getType() + "." + projectile.getType()) > 0) {
             int taskId = plugin.getServer().getScheduler().runTaskLater(plugin, new Runnable() {
                 @Override
                 public void run() {
                     projectile.remove();
                 }
-            }, plugin.getConfig().getInt("projectile-launch." + shooter.getType() + "." + projectile.getType())).getTaskId();
+            }, getConfig().getInt("projectile-launch." + shooter.getType() + "." + projectile.getType())).getTaskId();
             setTask(projectile, taskId);
         }
     }

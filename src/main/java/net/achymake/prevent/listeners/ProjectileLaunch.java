@@ -7,14 +7,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.projectiles.ProjectileSource;
 
 public class ProjectileLaunch implements Listener {
     private EntityData getEntityData() {
         return Prevent.getEntityData();
     }
-    public ProjectileLaunch(Plugin plugin) {
+    public ProjectileLaunch(Prevent plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
     @EventHandler(priority = EventPriority.NORMAL)

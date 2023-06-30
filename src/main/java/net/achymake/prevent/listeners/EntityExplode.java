@@ -6,13 +6,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityExplodeEvent;
-import org.bukkit.plugin.Plugin;
 
 public class EntityExplode implements Listener {
     private FileConfiguration getConfig() {
         return Prevent.getConfiguration();
     }
-    public EntityExplode(Plugin plugin) {
+    public EntityExplode(Prevent plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
     @EventHandler(priority = EventPriority.NORMAL)

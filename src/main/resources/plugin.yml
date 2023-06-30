@@ -9,10 +9,10 @@ description: '${project.description}'
 commands:
   prevent:
     description: message
-    permission: prevent.command.reload
-    usage: /prevent reload
+    permission: prevent.command
+    usage: /prevent
     permission-message: You do not have the permission to execute the command
 permissions:
-  prevent.command.reload:
+  prevent.command:
     description: reload config
     default: op

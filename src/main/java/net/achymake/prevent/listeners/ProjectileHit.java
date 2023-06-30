@@ -11,7 +11,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileHitEvent;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.projectiles.ProjectileSource;
 
 public class ProjectileHit implements Listener {
@@ -21,7 +20,7 @@ public class ProjectileHit implements Listener {
     private EntityData getEntityData() {
         return Prevent.getEntityData();
     }
-    public ProjectileHit(Plugin plugin) {
+    public ProjectileHit(Prevent plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
     @EventHandler(priority = EventPriority.NORMAL)

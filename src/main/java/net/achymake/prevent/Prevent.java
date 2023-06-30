@@ -17,6 +17,10 @@ public final class Prevent extends JavaPlugin {
     public static Prevent getInstance() {
         return plugin;
     }
+    private static FileConfiguration configuration;
+    public static FileConfiguration getConfiguration() {
+        return configuration;
+    }
     private static Message message;
     public static Message getMessage() {
         return message;
@@ -24,10 +28,6 @@ public final class Prevent extends JavaPlugin {
     private static EntityData entityData;
     public static EntityData getEntityData() {
         return entityData;
-    }
-    private static FileConfiguration configuration;
-    public static FileConfiguration getConfiguration() {
-        return configuration;
     }
     private void start() {
         plugin = this;

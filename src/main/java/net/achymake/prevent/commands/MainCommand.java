@@ -24,10 +24,9 @@ public class MainCommand implements CommandExecutor, TabCompleter {
             if (args[0].equalsIgnoreCase("reload")) {
                 getPlugin().reload();
                 getMessage().send(sender, "&6Prevent reloaded");
-                return true;
             }
         }
-        return false;
+        return true;
     }
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {

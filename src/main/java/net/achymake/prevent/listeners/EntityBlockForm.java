@@ -6,13 +6,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.EntityBlockFormEvent;
-import org.bukkit.plugin.Plugin;
 
 public class EntityBlockForm implements Listener {
     private FileConfiguration getConfig() {
         return Prevent.getConfiguration();
     }
-    public EntityBlockForm(Plugin plugin) {
+    public EntityBlockForm(Prevent plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
     @EventHandler(priority = EventPriority.NORMAL)
