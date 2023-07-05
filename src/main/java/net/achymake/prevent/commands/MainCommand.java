@@ -8,25 +8,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainCommand implements CommandExecutor, TabCompleter {
-    private Prevent getPlugin() {
-        return Prevent.getInstance();
-    }
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
             if (args.length == 1) {
-                Player player = (Player) sender;
                 if (args[0].equalsIgnoreCase("reload")) {
-                    getPlugin().reload();
+                    Prevent.reload();
+                    Player player = (Player) sender;
                     Prevent.send(player, "&6Prevent reloaded");
                 }
             }
         }
         if (sender instanceof ConsoleCommandSender) {
             if (args.length == 1) {
-                ConsoleCommandSender commandSender = (ConsoleCommandSender) sender;
                 if (args[0].equalsIgnoreCase("reload")) {
-                    getPlugin().reload();
+                    Prevent.reload();
+                    ConsoleCommandSender commandSender = (ConsoleCommandSender) sender;
                     Prevent.send(commandSender, "&6Prevent reloaded");
                 }
             }

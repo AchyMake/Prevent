@@ -26,6 +26,10 @@ public final class Prevent extends JavaPlugin {
     public static Prevent getInstance() {
         return instance;
     }
+    private static File folder;
+    public static File getFolder() {
+        return folder;
+    }
     private static FileConfiguration configuration;
     public static FileConfiguration getConfiguration() {
         return configuration;
@@ -41,6 +45,7 @@ public final class Prevent extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
+        folder = getDataFolder();
         configuration = getConfig();
         logger = getLogger();
         entityData = new EntityData(this);
@@ -59,11 +64,13 @@ public final class Prevent extends JavaPlugin {
         getCommand("prevent").setExecutor(new MainCommand());
     }
     private void events() {
+        new BlockBreak(this);
         new BlockBurn(this);
         new BlockIgnite(this);
         new BlockRedstone(this);
         new BlockSpread(this);
         new CreatureSpawn(this);
+        new EggHatch(this);
         new EntityBlockForm(this);
         new EntityChangeBlock(this);
         new EntityExplode(this);
@@ -74,28 +81,32 @@ public final class Prevent extends JavaPlugin {
         new ProjectileLaunch(this);
         new Trample(this);
     }
-    public void reload() {
-        File file = new File(getDataFolder(), "config.yml");
+    public static void reload() {
+        File file = new File(getFolder(), "config.yml");
         if (file.exists()) {
             try {
-                getConfig().load(file);
+                getConfiguration().load(file);
+                getConfiguration().save(file);
                 sendLog(Level.INFO, "loading config.yml");
             } catch (IOException | InvalidConfigurationException e) {
                 sendLog(Level.WARNING, e.getMessage());
             }
-            saveConfig();
         } else {
-            getConfig().options().copyDefaults(true);
-            saveConfig();
-            sendLog(Level.INFO, "created config.yml");
+            getConfiguration().options().copyDefaults(true);
+            try {
+                getConfiguration().save(file);
+                sendLog(Level.INFO, "created config.yml");
+            } catch (IOException e) {
+                sendLog(Level.WARNING, e.getMessage());
+            }
         }
     }
-    public void getUpdate(Player player) {
+    public static void getUpdate(Player player) {
         if (notifyUpdate()) {
             getLatest((latest) -> {
-                if (!getDescription().getVersion().equals(latest)) {
-                    send(player,"&6" + getName() + " Update:&f " + latest);
-                    send(player,"&6Current Version: &f" + getDescription().getVersion());
+                if (!getInstance().getDescription().getVersion().equals(latest)) {
+                    send(player,"&6" + getInstance().getName() + " Update:&f " + latest);
+                    send(player,"&6Current Version: &f" + getInstance().getDescription().getVersion());
                 }
             });
         }
@@ -118,7 +129,7 @@ public final class Prevent extends JavaPlugin {
             });
         }
     }
-    public void getLatest(Consumer<String> consumer) {
+    public static void getLatest(Consumer<String> consumer) {
         try {
             InputStream inputStream = (new URL("https://api.spigotmc.org/legacy/update.php?resource=" + 110441)).openStream();
             Scanner scanner = new Scanner(inputStream);
@@ -133,8 +144,8 @@ public final class Prevent extends JavaPlugin {
             sendLog(Level.WARNING, e.getMessage());
         }
     }
-    private boolean notifyUpdate() {
-        return getConfig().getBoolean("notify-update.enable");
+    private static boolean notifyUpdate() {
+        return getConfiguration().getBoolean("notify-update.enable");
     }
     public static void send(ConsoleCommandSender sender, String message) {
         sender.sendMessage(message);

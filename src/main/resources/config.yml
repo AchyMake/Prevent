@@ -1,6 +1,10 @@
 prevent:
   # prevent moving into unloaded chunks
   moving-into-unloaded-chunks: true
+  # prevent chicken egg hatch spawn
+  egg-hatch: false
+  # prevent block drops on creative
+  creative-block-drops: false
   # prevent redstone
   redstone: false
   # prevent fire spread
