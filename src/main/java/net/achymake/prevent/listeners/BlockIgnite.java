@@ -1,6 +1,7 @@
 package net.achymake.prevent.listeners;
 
 import net.achymake.prevent.Prevent;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -17,7 +18,12 @@ public class BlockIgnite implements Listener {
     @EventHandler(priority = EventPriority.NORMAL)
     public void onBlockIgnite(BlockIgniteEvent event) {
         if (!getConfig().getBoolean("prevent.fire-spread"))return;
-        if (!event.getCause().equals(BlockIgniteEvent.IgniteCause.LAVA))return;
-        event.setCancelled(true);
+        if (event.getCause().equals(BlockIgniteEvent.IgniteCause.LAVA)) {
+            event.setCancelled(true);
+        }
+        if (event.getCause().equals(BlockIgniteEvent.IgniteCause.SPREAD)) {
+            if (event.getIgnitingBlock() == null)return;
+            event.getIgnitingBlock().setType(Material.AIR);
+        }
     }
 }

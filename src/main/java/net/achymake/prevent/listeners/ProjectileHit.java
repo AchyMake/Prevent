@@ -49,6 +49,13 @@ public class ProjectileHit implements Listener {
                             getEntityData().cancelTask(getShooter(event.getEntity().getShooter()), event.getEntity());
                         }
                     }
+                } else {
+                    if (isEntity(event.getHitEntity())) {
+                        getEntityData().forceCancel(event.getEntity());
+                    }
+                    if (isBlock(event.getHitBlock())) {
+                        getEntityData().cancelTask(getShooter(event.getEntity().getShooter()), event.getEntity());
+                    }
                 }
             } else {
                 if (isEntity(event.getHitEntity())) {
